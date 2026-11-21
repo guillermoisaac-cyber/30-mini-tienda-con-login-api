@@ -1,0 +1,1 @@
+import {errorResponse,json,user} from '@/lib/http';import {NextRequest} from 'next/server';export const runtime='nodejs';export async function GET(req:NextRequest){try{const u=await user(req);return json({usuario:{id:u.uid,email:u.email||null}})}catch(e){return errorResponse(e)}}

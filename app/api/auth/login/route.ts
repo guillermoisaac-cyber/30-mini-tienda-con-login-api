@@ -1,0 +1,2 @@
+import {credentials} from '@/lib/schemas';import {bodyJson,errorResponse,json} from '@/lib/http';import {firebaseSign} from '@/lib/auth-rest';import {NextRequest} from 'next/server';
+export const runtime='nodejs';export async function POST(req:NextRequest){try{const {email,password}=credentials.parse(await bodyJson(req));const r=await firebaseSign('signInWithPassword',email,password);return json({token:r.idToken,refreshToken:r.refreshToken,expiraEnSeg:Number(r.expiresIn),usuario:{id:r.localId,email:r.email||email}})}catch(e){return errorResponse(e)}}

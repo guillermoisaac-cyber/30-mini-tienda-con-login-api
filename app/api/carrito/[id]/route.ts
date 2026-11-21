@@ -1,0 +1,1 @@
+import {putSync,deleteSync} from '@/lib/sync';import {NextRequest} from 'next/server';export const runtime='nodejs';type C={params:Promise<{id:string}>};export async function PUT(req:NextRequest,{params}:C){return putSync(req,'carrito',(await params).id)}export async function DELETE(req:NextRequest,{params}:C){return deleteSync(req,'carrito',(await params).id)}

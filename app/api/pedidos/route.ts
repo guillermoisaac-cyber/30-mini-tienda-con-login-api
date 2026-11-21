@@ -1,0 +1,3 @@
+import {errorResponse,json,user,bodyJson} from '@/lib/http';import {orderInput} from '@/lib/schemas';import {createOrder} from '@/lib/orders';import {db} from '@/lib/firebase';import {NextRequest} from 'next/server';
+export const runtime='nodejs';export async function POST(req:NextRequest){try{const u=await user(req);const result=await createOrder(u.uid,orderInput.parse(await bodyJson(req)));return json(result,201)}catch(e){return errorResponse(e)}}
+export async function GET(req:NextRequest){try{const u=await user(req);const snap=await db().collection('pedidos').where('user_id','==',u.uid).orderBy('creado_en','desc').limit(100).get();return json({items:snap.docs.map(d=>({id:d.id,...d.data()}))})}catch(e){return errorResponse(e)}}

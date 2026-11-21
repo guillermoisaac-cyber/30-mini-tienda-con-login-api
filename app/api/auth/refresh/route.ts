@@ -1,0 +1,2 @@
+import {refresh} from '@/lib/schemas';import {bodyJson,errorResponse,json} from '@/lib/http';import {firebaseRefresh} from '@/lib/auth-rest';import {NextRequest} from 'next/server';
+export const runtime='nodejs';export async function POST(req:NextRequest){try{const {refreshToken}=refresh.parse(await bodyJson(req));const r=await firebaseRefresh(refreshToken);return json({token:r.id_token,refreshToken:r.refresh_token,expiraEnSeg:Number(r.expires_in)})}catch(e){return errorResponse(e)}}
